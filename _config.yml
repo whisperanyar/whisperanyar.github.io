@@ -1,0 +1,81 @@
+name: WhisperAnyar
+title: WhisperAnyar 的博客
+description: 记录技术、思考与成长
+url: https://whisperanyar.github.io
+baseurl: ""
+
+# 作者信息
+author:
+  name: WhisperAnyar
+  email: 
+  url: https://whisperanyar.github.io
+
+# 语言设置
+lang: zh-CN
+locale: zh_CN
+
+# 时区
+timezone: Asia/Shanghai
+
+# 博客设置
+permalink: /:year/:month/:day/:title.html
+paginate: 10
+paginate_path: /page/:num
+
+# Markdown 设置
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+# 目录生成
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
+
+# 默认值
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      author: WhisperAnyar
+      comments: true
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: page
+
+# 自定义变量
+social:
+  github: whisperanyar
+  # twitter: 
+  # weibo: 
+  # email: 
+
+# Google Analytics (可选)
+# google_analytics: UA-XXXXXX-X
+
+# 头像 URL (可选)
+avatar: /assets/images/avatar.jpg

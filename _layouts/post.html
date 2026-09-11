@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">{{ page.date | date: "%Y-%m-%d" }}</time>
+      {% if page.author %}
+      <span class="post-author">作者: {{ page.author }}</span>
+      {% endif %}
+      {% if page.categories %}
+      <span class="post-categories">
+        分类: 
+        {% for category in page.categories %}
+        <a href="{{ site.baseurl }}/category/{{ category | slugify }}.html">{{ category }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+      {% if page.tags %}
+      <span class="post-tags">
+        标签: 
+        {% for tag in page.tags %}
+        <a href="{{ site.baseurl }}/tag/{{ tag | slugify }}.html">{{ tag }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.comments %}
+  <section class="post-comments">
+    <h2>评论</h2>
+    <!-- 这里可以集成 Disqus 或其他评论系统 -->
+    <p>评论功能即将开放...</p>
+  </section>
+  {% endif %}
+</article>
+
+<div class="post-navigation">
+  {% if page.previous %}
+  <a href="{{ page.previous.url | absolute_url }}" class="prev-post">« 上一篇: {{ page.previous.title }}</a>
+  {% endif %}
+  
+  {% if page.next %}
+  <a href="{{ page.next.url | absolute_url }}" class="next-post">下一篇: {{ page.next.title }} »</a>
+  {% endif %}
+</div>
