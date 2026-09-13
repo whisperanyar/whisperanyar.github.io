@@ -13,6 +13,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
   
+  <!-- 预加载 Three.js -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js" as="script">
+  
+  <!-- 字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  
   <!-- RSS Feed -->
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.baseurl }}/feed.xml">
   
@@ -51,6 +57,11 @@
       {% endif %}
     </div>
   </footer>
+
+  <!-- 粒子背景和动画脚本 -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/particles.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/animate.js"></script>
 
   <!-- Google Analytics -->
   {% if site.google_analytics %}

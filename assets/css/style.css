@@ -13,10 +13,80 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #f8f9fa;
+  overflow-x: hidden;
+}
+
+/* 页面加载动画 */
+body.page-loading {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+/* 3D 粒子背景 */
+#particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+#particles-bg canvas {
+  display: block;
+}
+
+/* 进度条 */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #007bff, #667eea, #ff6b9d);
+  z-index: 1001;
+  transition: width 0.3s ease;
+}
+
+/* 回到顶部按钮 */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  z-index: 1000;
+}
+
+#back-to-top:hover {
+  background: #0056b3;
+  transform: translateY(-3px);
+}
+
+#back-to-top svg {
+  width: 24px;
+  height: 24px;
 }
 
 a {
@@ -45,16 +115,19 @@ img {
 }
 
 /* ============================================
-   头部
+   头部 - 玻璃态效果
    ============================================ */
 
 .site-header {
-  background-color: #fff;
-  border-bottom: 1px solid #e9ecef;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(233, 236, 239, 0.5);
   padding: 20px 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .site-header .container {
@@ -65,14 +138,22 @@ img {
 }
 
 .site-title {
+  font-family: 'Noto Serif SC', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: #212529;
   text-decoration: none;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #007bff, #667eea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .site-title:hover {
   color: #007bff;
+  -webkit-text-fill-color: #007bff;
+  transform: scale(1.02);
 }
 
 .site-nav {
@@ -81,14 +162,17 @@ img {
 }
 
 .nav-link {
+  font-family: 'Noto Sans SC', sans-serif;
   font-size: 1rem;
   color: #495057;
   padding: 5px 0;
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
   color: #007bff;
+  transform: translateY(-2px);
 }
 
 .nav-link::after {
@@ -98,7 +182,7 @@ img {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #007bff;
+  background: linear-gradient(90deg, #007bff, #667eea);
   transition: width 0.3s ease;
 }
 
@@ -462,12 +546,15 @@ img {
   border-radius: 4px;
   text-decoration: none;
   color: #495057;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
 }
 
 .pagination-item:hover:not(.pagination-disabled):not(.pagination-current) {
   background-color: #e9ecef;
   border-color: #adb5bd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
 }
 
 .pagination-prev,
@@ -482,15 +569,125 @@ img {
 }
 
 .pagination-current {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #007bff, #667eea);
   color: #fff;
-  border-color: #007bff;
+  border-color: transparent;
   cursor: default;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .pagination-current:hover {
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background: linear-gradient(135deg, #0069d9, #5a6fd8);
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   动画效果
+   ============================================ */
+
+/* 滚动动画 */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-animate.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 满屏加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 文章卡片悬停效果 */
+.post-summary {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.post-summary:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 链接悬停效果 */
+.post-content a {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.post-content a:hover {
+  transform: translateX(5px);
+}
+
+/* 按钮悬停效果 */
+.read-more {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.read-more:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* 社交链接悬停效果 */
+.social-links a {
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 首页部分动画 */
+.home-section {
+  animation: fadeIn 1s ease;
+}
+
+.posts-section {
+  animation: fadeIn 1s ease 0.3s both;
 }
 
 /* ============================================
@@ -576,6 +773,24 @@ img {
 
   .pagination {
     flex-wrap: wrap;
+  }
+  
+  /* 移动设备优化 */
+  #back-to-top {
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  /* 在移动设备上禁用粒子背景 */
+  #particles-bg {
+    display: none !important;
+  }
+  
+  /* 简化动画效果 */
+  .scroll-animate {
+    animation: fadeIn 0.5s ease forwards !important;
   }
 }
 
@@ -734,5 +949,18 @@ img {
   a {
     color: #007bff;
     text-decoration: underline;
+  }
+  
+  /* 打印时隐藏动态元素 */
+  #particles-bg,
+  #progress-bar,
+  #back-to-top {
+    display: none !important;
+  }
+  
+  .site-header {
+    position: static;
+    background: white !important;
+    backdrop-filter: none !important;
   }
 }
